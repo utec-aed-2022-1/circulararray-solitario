@@ -77,18 +77,22 @@ void CircularArray<T>::push_back(T data) {
 
 template <class T>//POP FRONT 
 T CircularArray<T>::pop_front() {
-  if(is_empty()) 
-    throw std::runtime_error("It's empty");
-  
-  T &tmp = array[front];
-
-  if(back == front) {
-    front = back = -1;
-    return tmp;
+{
+  int aux = array[front];
+  for(int i=front;i<back;i++){
+     array[i]=array[next(i)];   
   }
-  
-  front = next(front);
-  return tmp;
+    array[back]=int (NULL);
+    back= prev(back);
+    return aux ;
+}
+template <class T>//IS _FULL    
+bool CircularArray<T>::is_full() {
+  return next(back) == front;
+}
+template <class T>//IS _EMPTY
+bool CircularArray<T>::is_empty() {
+  return (front == -1 && back == -1);
 }
 
 
