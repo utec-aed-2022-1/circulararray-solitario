@@ -65,6 +65,17 @@ int CircularArray<T>::next(int index)
     return (index + 1) % capacity;
 }
 
+template <class T>//PUSH BACK
+void CircularArray<T>::push_back(T data) {  
+  if(is_empty())
+    front = back = 0;
+  else
+    back = next(back);
+  
+   array[back] = data;
+}
+
+
 template <class T>
 string CircularArray<T>::to_string(string sep)
 {
