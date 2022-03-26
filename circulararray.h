@@ -65,6 +65,20 @@ int CircularArray<T>::next(int index)
     return (index + 1) % capacity;
 }
 
+template <class T>//INT SIZE
+int CircularArray<T>::size() {
+  if(is_empty()) 
+    return 0;
+
+  if(front == back) 
+    return 1;
+
+  if(front > back)
+    return (capacity - front) + (back + 1);
+  else
+    return back - front + 1;
+}
+
 template <class T>//PUSH BACK
 void CircularArray<T>::push_back(T data) {  
   if(is_empty())
