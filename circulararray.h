@@ -75,6 +75,22 @@ void CircularArray<T>::push_back(T data) {
    array[back] = data;
 }
 
+template <class T>//POP FRONT 
+T CircularArray<T>::pop_front() {
+  if(is_empty()) 
+    throw std::runtime_error("It's empty");
+  
+  T &tmp = array[front];
+
+  if(back == front) {
+    front = back = -1;
+    return tmp;
+  }
+  
+  front = next(front);
+  return tmp;
+}
+
 
 template <class T>
 string CircularArray<T>::to_string(string sep)
