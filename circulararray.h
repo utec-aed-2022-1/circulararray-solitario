@@ -79,8 +79,6 @@ int CircularArray<T>::size() {
     return back - front + 1;
 }
 
-template <class T>
-
 
 template <class T> // PUSH FRONT
 void CircularArray<T>::push_front(T data){
