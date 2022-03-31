@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 template <class T>
@@ -24,9 +25,9 @@ public:
     int size();
     void clear();
     T &operator[](int); //CHECK
-    void sort(); //CHECK
+    void Sort(); //CHECK
     bool is_sorted(); // CHECK
-    T* reverse(); // CHECK
+    void reverse(); // CHECK
     void display(); // CHECK
     string to_string(string sep=" ");
 
@@ -93,9 +94,27 @@ void CircularArray<T>::push_front(T data){
     array[front] = data;
   }
   else {
-    front = prev(front);
-    array[front] = data;
+    for(int i=back;i>front-1;i--){
+      array[next(i)]=array[i];
+    }
+    array[front]=data;
+    back=next(back);
   }
+  // if(is_empty()){
+  //       front=back=0;
+  //       array[front]=data;
+  //       return;
+  //   }
+  //   else if(is_full()){return;}
+  //   else{
+        
+  //       for(int i=back;i>front-1;i--){
+  //        array[next(i)]=array[i];
+  //       }
+  //        array[front]=data;
+  //        back=next(back);
+  //       }
+
 };
 
 template <class T>//PUSH BACK
@@ -161,19 +180,33 @@ void CircularArray<T>::insert(T data, int position){
 };
 
 template <class T> //REVERSE
-T* CircularArray<T>::reverse(){
-  int size = size();
-  T* new_array = new T[size];
-  T front_temp = front;
-  T back_temp = back;
+void CircularArray<T>::reverse(){
+  // int size = size();
+  // T* new_array = new T[size];
+  // T front_temp = front;
+  // T back_temp = back;
 
-  for (int i = 0; i < size; i++){
-      new_array[front_temp] = array[back_temp];
-      front_temp = next(front_temp);
-      back_temp = prev(back_temp);
-  };
+  // for (int i = 0; i < size; i++){
+  //     new_array[front_temp] = array[back_temp];
+  //     front_temp = next(front_temp);
+  //     back_temp = prev(back_temp);
+  // };
 
-  return new_array;
+  // //return new_array;
+  if(is_empty()) 
+    throw std::runtime_error("It's empty");
+  
+  T* tmp = new T[capacity];
+  
+  tmp[front] = array[back];
+
+  for(int i = prev(back), j = next(front); j != next(back); i = prev(i), j = next(j)) {
+    tmp[j] = array[i];
+  }
+
+  delete [] array;
+  array = tmp;
+
 };
 
 template <class T> //DISPLAY
@@ -195,27 +228,47 @@ bool CircularArray<T>::is_sorted(){
 }
 
 template <class T> //SORT
-void CircularArray<T>::sort()
+void CircularArray<T>::Sort()
 {
     // 1) Create n empty buckets
     vector<float> b[size()];
  
     // 2) Put array elements
     // in different buckets
-    for (int i = 0; i < n; i++) {
-        int bi = n * array[i]; // Index in bucket
+    for (int i = 0; i < size(); i++) {
+        int bi = size() * array[i]; // Index in bucket
         b[bi].push_back(array[i]);
     }
  
     // 3) Sort individual buckets
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < size(); i++)
         sort(b[i].begin(), b[i].end());
  
     // 4) Concatenate all buckets into arr[]
     int index = 0;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < size(); i++)
         for (int j = 0; j < b[i].size(); j++)
             array[index++] = b[i][j];
+    /*
+  if (size()==1){
+      return;}
+    else if (is_empty()){
+        return;}
+    else{
+         T temp;
+        for(int i=0;i<size();i++){
+            for(int j=0;j<size();j++){
+          if(array[j]<array[j+1]){
+            temp=array[j];
+            array[j]=array[j+1];
+            array[j+1]=temp;
+          }
+            }
+          }
+
+          *this=*this->reverse();
+        }*/
+
 }
 
 template <class T>
