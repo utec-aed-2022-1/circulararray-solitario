@@ -15,6 +15,12 @@ template <typename T>
  void QueueArray<T>::enqueue(T item) {
   QueueArray<T>::push_back(item);
 }
+template <typename T>
+T QueueArray<T>::peek() {
+  if(QueueArray<T>::is_empty()) 
+    throw std::runtime_error("Esta lleno");
+  return this->array[this->front];
+}
 
 template <typename T>
  QueueArray<T>::QueueArray(int capacity) {
